@@ -60,3 +60,11 @@ body {
 .WindowHeightInput{
   width:20px;
 }
+
+.nothingclass{
+  background-color: #ffffff;
+}
+
+.ActionBtn:{
+  border: none;
+}

@@ -1,4 +1,4 @@
-const WIDTH_PERCENTAGE = 70;
+const WIDTH_PERCENTAGE = 40;
 let activeWindow = null;
 let windowsContainer = document.querySelector('#windowsContainer');
 
@@ -14,7 +14,7 @@ let controller = {
         let newWindow = {
             position: position,
             size: size,
-            src: src || 'https://test.suisuy.top/html/clipdict/dict/jsrun.html',
+            src: src || 'https://www.bing.com',
             name: name || "w" + (model.windowsAmount + 1),
             id: "window" + model.windowsAmount
         }
@@ -73,8 +73,8 @@ function createWindowDiv(name, id, src, position, size = [window.innerWidth * 0.
     <div class="TopBar">
         <input type="text" class="WindowName" value=${name}>
         <input class="WindowSrc" value=${src}>
-        <button class="MoveBtn">mv</button>
-        <button class="newBtn">new</button>
+        <button class="newBtn ActionBtn"><i class="icofont-plus"></i></button>
+        <button class="reloadBtn ActionBtn"><i class="icofont-refresh"></i></button>
         <input type="text" class="WindowWidthInput"  value=${WIDTH_PERCENTAGE}>
         x
         <input type="text" class="WindowHeightInput"  value=${WIDTH_PERCENTAGE}>
@@ -88,14 +88,20 @@ function createWindowDiv(name, id, src, position, size = [window.innerWidth * 0.
     windowDiv.style.height = size.height + 'px';
     windowDiv.style.zIndex = '1';
 
-    let moveBtn = windowDiv.querySelector('.MoveBtn');
     let newBtn = windowDiv.querySelector('.newBtn');
+    let reloadBtn = windowDiv.querySelector('.reloadBtn');
     let widthInput = windowDiv.querySelector('.WindowWidthInput');
     let heightInput = windowDiv.querySelector('.WindowHeightInput');
     let srcInput = windowDiv.querySelector('.WindowSrc');
     let nameInput = windowDiv.querySelector('.WindowName');
 
 
+
+    reloadBtn.addEventListener('click', e => {
+        controller.updateWindowSrcAndName(windowDiv, srcInput.value, nameInput.value);
+
+
+    })
 
     windowDiv.addEventListener('pointerdown', e => {
         if (activeWindow) {
@@ -124,7 +130,7 @@ function createWindowDiv(name, id, src, position, size = [window.innerWidth * 0.
     })
     let isDown = false;
     offset = [0, 0];
-    moveBtn.addEventListener('pointerdown', function (e) {
+    windowDiv.addEventListener('pointerdown', function (e) {
         isDown = true;
         offset = [
             windowDiv.offsetLeft - e.clientX,
@@ -133,12 +139,11 @@ function createWindowDiv(name, id, src, position, size = [window.innerWidth * 0.
 
     }, true);
 
-    document.addEventListener('pointerup', function () {
+    window.addEventListener('pointerup', function () {
         isDown = false;
     }, true);
 
-    document.addEventListener('pointermove', function (event) {
-
+    window.addEventListener('pointermove', function (event) {
         controller.updateWindowPosition(windowDiv, { x: event.clientX, y: event.clientY }, isDown);
 
     }, true);
