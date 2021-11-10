@@ -25,6 +25,8 @@ body {
   border-style: solid;
   border-color: lightpink;
   overflow: hidden;
+  touch-action: none;
+  
 
 }
 .TopBar{
